@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<button id="resizableButton" onclick="increaseSize()">Click me!</button>
+<button id="resizableButton" onclick="increaseSize()">Click to make it bigger </button>
 
 <script>
   let clickCount = 0;
