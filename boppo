@@ -3,28 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resizable Button</title>
+  <title>Search Browser</title>
   <style>
-    #resizableButton {
-      font-size: 16px;
-      padding: 10px;
-      transition: all 0.3s;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #search-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #results-container {
+      margin-top: 20px;
+      text-align: left;
     }
   </style>
 </head>
 <body>
 
-<button id="resizableButton" onclick="increaseSize()">Click me!</button>
+<div id="search-container">
+  <h2>Search Browser</h2>
+  <input type="text" id="search-input" placeholder="Type your search term">
+  <button onclick="search()">Search</button>
+</div>
+
+<div id="results-container"></div>
 
 <script>
-  let clickCount = 0;
+  const searchResults = [
+    { title: 'Result 1', url: 'https://example.com/result1' },
+    { title: 'Result 2', url: 'https://example.com/result2' },
+    { title: 'Result 3', url: 'https://example.com/result3' },
+    // Add more search results as needed
+  ];
 
-  function increaseSize() {
-    clickCount++;
-    const button = document.getElementById('resizableButton');
-    const newSize = 16 + clickCount * 2; // You can adjust the rate of increase here
-    button.style.fontSize = newSize + 'px';
-    button.style.padding = (10 + clickCount) + 'px'; // Adjust padding as well for visual effect
+  function search() {
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
+    const resultsContainer = document.getElementById('results-container');
+    resultsContainer.innerHTML = ''; // Clear previous results
+
+    const matchingResults = searchResults.filter(result =>
+      result.title.toLowerCase().includes(searchTerm)
+    );
+
+    if (matchingResults.length === 0) {
+      resultsContainer.innerHTML = '<p>No results found.</p>';
+    } else {
+      matchingResults.forEach(result => {
+        const resultElement = document.createElement('div');
+        resultElement.innerHTML = `<a href="${result.url}" target="_blank">${result.title}</a>`;
+        resultsContainer.appendChild(resultElement);
+      });
+    }
   }
 </script>
 
