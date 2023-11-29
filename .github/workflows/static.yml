@@ -3,62 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
+  <title>Search Browser</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    #login-container {
+    #search-container {
+      margin-top: 20px;
       text-align: center;
     }
 
-    input {
-      margin-bottom: 10px;
+    #results-container {
+      margin-top: 20px;
+      text-align: left;
     }
   </style>
 </head>
 <body>
 
-<div id="login-container">
-  <h2>Login</h2>
-  <form id="login-form">
-    <label for="username">Username:</label>
-    <input type="text" id="username" required>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" required>
-
-    <button type="button" onclick="login()">Login</button>
-  </form>
-
-  <p id="error-message" style="color: red;"></p>
+<div id="search-container">
+  <h2>Search Browser</h2>
+  <input type="text" id="search-input" placeholder="Type your search term">
+  <button onclick="search()">Search</button>
 </div>
 
+<div id="results-container"></div>
+
 <script>
-  function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+  const searchResults = [
+    { title: 'Result 1', url: 'https://example.com/result1' },
+    { title: 'Result 2', url: 'https://example.com/result2' },
+    { title: 'Result 3', url: 'https://example.com/result3' },
+    // Add more search results as needed
+  ];
 
-    // Perform simple client-side validation
-    if (username === '' || password === '') {
-      document.getElementById('error-message').textContent = 'Please enter both username and password.';
-      return;
-    }
+  function search() {
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
+    const resultsContainer = document.getElementById('results-container');
+    resultsContainer.innerHTML = ''; // Clear previous results
 
-    // Simulate server-side authentication
-    // In a real-world scenario, you would send a request to a server for authentication
-    // and handle the response accordingly.
-    if (username === 'yourUsername' && password === 'yourPassword') {
-      alert('Login successful! Redirecting to the dashboard...');
-      // In a real-world scenario, you would redirect the user to the dashboard or another page.
+    const matchingResults = searchResults.filter(result =>
+      result.title.toLowerCase().includes(searchTerm)
+    );
+
+    if (matchingResults.length === 0) {
+      resultsContainer.innerHTML = '<p>No results found.</p>';
     } else {
-      document.getElementById('error-message').textContent = 'Invalid username or password.';
+      matchingResults.forEach(result => {
+        const resultElement = document.createElement('div');
+        resultElement.innerHTML = `<a href="${result.url}" target="_blank">${result.title}</a>`;
+        resultsContainer.appendChild(resultElement);
+      });
     }
   }
 </script>
